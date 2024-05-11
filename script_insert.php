@@ -1,36 +1,38 @@
 <?php
 
-include 'config/database.php';
-require_once 'app/models/M_SanPham.php';
-require_once 'app/models/M_KichThuoc.php';
-require_once 'app/models/M_MauSac.php';
+    include 'config/database.php';
+    require_once 'app/models/M_SanPham.php';
+    require_once 'app/models/M_KichThuoc.php';
+    require_once 'app/models/M_MauSac.php';
 
-$jsonData = file_get_contents('data/products.json');
-$data = json_decode($jsonData, true);
+    global $conn;
 
-if (!$data || !isset($data['products'])) {
-  die('Dữ liệu JSON không hợp lệ');
-}
+    $jsonData = file_get_contents('data/products.json');
+    $data = json_decode($jsonData, true);
 
-$sanPhamModel = new SanPhamModel($conn);
-$kichThuocModel = new KichThuocModel($conn);
-$mauSacModel = new MauSacModel($conn);
+    if (!$data || !isset($data['products'])) {
+        die('Dữ liệu JSON không hợp lệ');
+    }
 
-foreach ($data['products'] as $product) {
-  $productId = $product['product_id'];
-  $productName = $product['product_name'];
-  $price = $product['price'];
+    $sanPhamModel = new SanPhamModel($conn);
+    $kichThuocModel = new KichThuocModel($conn);
+    $mauSacModel = new MauSacModel($conn);
 
-  $quantity = $product['quantity'];
-  $image = $product['image'];
-  $categoryId = $product['category_id'];
+    foreach ($data['products'] as $product) {
+        $productId = $product['product_id'];
+        $productName = $product['product_name'];
+        $price = $product['price'];
 
-  $colors = $product['colors'];
-  $sizes = $product['sizes'];
+        $quantity = $product['quantity'];
+        $image = $product['image'];
+        $categoryId = $product['category_id'];
 
-  $sanPham = new SanPham($productId, $productName, $price, $quantity, $image, $categoryId);
-  
-  $sanPhamModel->themSanPham($sanPham, $colors, $sizes);
-}
+        $colors = $product['colors'];
+        $sizes = $product['sizes'];
 
-echo "Đã chèn dữ liệu vào CSDL. ";
+        $sanPham = new SanPham($productId, $productName, $price, $quantity, $image, $categoryId);
+
+        $sanPhamModel -> themSanPham($sanPham, $colors, $sizes);
+    }
+
+    echo "Đã chèn dữ liệu vào CSDL. ";

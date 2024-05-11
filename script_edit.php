@@ -1,44 +1,61 @@
 <?php
 
-include 'config/database.php';
-require_once 'app/models/M_SanPham.php';
-require_once 'app/models/M_KichThuoc.php';
-require_once 'app/models/M_MauSac.php';
+    include 'config/database.php';
+    require_once 'app/models/M_SanPham.php';
+    require_once 'app/models/M_KichThuoc.php';
+    require_once 'app/models/M_MauSac.php';
+    require_once 'app/models/redisCache.php';
 
-$startTime = microtime(true);
+    global $conn;
 
-$jsonData = file_get_contents('data/products_edit.json');
-$data = json_decode($jsonData, true);
+    $startTime = microtime(true);
 
-if (!$data || !isset($data['products'])) {
-  die('Dữ liệu JSON không hợp lệ');
-}
+    $jsonData = file_get_contents('data/products_edit.json');
+    $data = json_decode($jsonData, true);
 
-$sanPhamModel = new SanPhamModel($conn);
-$kichThuocModel = new KichThuocModel($conn);
-$mauSacModel = new MauSacModel($conn);
+    if (!$data || !isset($data['products'])) {
+        die('Dữ liệu JSON không hợp lệ');
+    }
 
-foreach ($data['products'] as $product) {
-  $productId = $product['product_id'];
-  $productName = $product['product_name'];
-  $price = $product['price'];
+    $sanPhamModel = new SanPhamModel($conn);
+    $kichThuocModel = new KichThuocModel($conn);
+    $mauSacModel = new MauSacModel($conn);
+    $cache = new redisCache();
 
-  $quantity = $product['quantity'];
-  $image = $product['image'];
-  $categoryId = $product['category_id'];
+    foreach ($data['products'] as $product) {
+        $productId = $product['product_id'];
+        $productName = $product['product_name'];
+        $price = $product['price'];
 
-  $colors = $product['colors'];
-  $sizes = $product['sizes'];
+        $quantity = $product['quantity'];
+        $image = $product['image'];
+        $categoryId = $product['category_id'];
 
-  $sanPham = new SanPham($productId, $productName, $price, $quantity, $image, $categoryId);
-  
-  $sanPhamModel->capNhatSanPham($sanPham, $colors, $sizes);
-}
+        $colors = $product['colors'];
+        $sizes = $product['sizes'];
 
-$endTime = microtime(true);
+        $sanPham = new SanPham($productId, $productName, $price, $quantity, $image, $categoryId);
+        $existingProduct = $cache->get('sanpham_' . $productId);
 
-$executionTime = $endTime - $startTime;
+        if ($sanPhamModel->capNhatSanPham($sanPham, $colors, $sizes)) {
+            $product = [
+                'masp' => $productId,
+                'tensp' => $productName,
+                'gia' => $price,
+                'soluong' => $quantity,
+                'hinhanh' => $image,
+                'maloai' => $categoryId,
+                'mausac' => $colors,
+                'kichthuoc' => $sizes
+            ];
+            $cache->set('sanpham_' . $productId, $product);
+        }
+    }
 
-echo "Đã chèn dữ liệu vào CSDL. ";
+    $endTime = microtime(true);
 
-echo "Thời gian chạy: " . number_format($executionTime) . " giây";
+    $executionTime = $endTime - $startTime;
+
+    echo "Đã chèn dữ liệu vào CSDL. ";
+
+    echo "Thời gian chạy: " . number_format($executionTime) . " giây";

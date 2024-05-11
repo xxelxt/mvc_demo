@@ -1,130 +1,109 @@
 <?php
-class SanPham // Lớp SanPham đại diện cho đối tượng sản phẩm
-{
-    private $masp;
-    private $tensp;
-    private $gia;
-    private $soluong;
-    private $hinhanh;
-    private $maloai;
-    private $makt = [];
-    private $mamau = [];
 
-    // Hàm khởi tạo để thiết lập giá trị khi khởi tạo đối tượng
-    public function __construct($masp, $tensp, $gia, $soluong, $hinhanh = null, $maloai)
-    {
-        $this->masp = $masp;
-        $this->tensp = $tensp;
-        $this->gia = $gia;
-        $this->soluong = $soluong;
-        $this->hinhanh = $hinhanh;
-        $this->maloai = $maloai;
-    }
+    class SanPham {
+        private $masp;
+        private $tensp;
+        private $gia;
+        private $soluong;
+        private $hinhanh;
+        private $maloai;
+        private $makt = [];
+        private $mamau = [];
 
-    // Các phương thức get, set
-    public function getMaSP()
-    {
-        return $this->masp;
-    }
+        // Hàm khởi tạo để thiết lập giá trị khi khởi tạo đối tượng
+        public function __construct($masp, $tensp, $gia, $soluong, $hinhanh = null, $maloai) {
+            $this -> masp = $masp;
+            $this -> tensp = $tensp;
+            $this -> gia = $gia;
+            $this -> soluong = $soluong;
+            $this -> hinhanh = $hinhanh;
+            $this -> maloai = $maloai;
+        }
 
-    public function getTenSP()
-    {
-        return $this->tensp;
-    }
+        // Các phương thức get, set
+        public function getMaSP() {
+            return $this -> masp;
+        }
 
-    public function getGia()
-    {
-        return $this->gia;
-    }
+        public function getTenSP() {
+            return $this -> tensp;
+        }
 
-    public function getSoLuong()
-    {
-        return $this->soluong;
-    }
+        public function getGia() {
+            return $this -> gia;
+        }
 
-    public function getHinhAnh()
-    {
-        return $this->hinhanh;
-    }
+        public function getSoLuong() {
+            return $this -> soluong;
+        }
 
-    public function getMaLoai()
-    {
-        return $this->maloai;
-    }
+        public function getHinhAnh() {
+            return $this -> hinhanh;
+        }
 
-    public function getMaKT()
-    {
-        return $this->makt;
-    }
+        public function getMaLoai() {
+            return $this -> maloai;
+        }
 
-    public function getMaMau()
-    {
-        return $this->mamau;
-    }
+        public function getMaKT() {
+            return $this -> makt;
+        }
 
-    public function setMaSP($masp)
-    {
-        $this->masp = $masp;
-    }
+        public function getMaMau() {
+            return $this -> mamau;
+        }
 
-    public function setTenSP($tensp)
-    {
-        $this->tensp = $tensp;
-    }
+        public function setMaSP($masp) {
+            $this -> masp = $masp;
+        }
 
-    public function setGia($gia)
-    {
-        $this->gia = $gia;
-    }
+        public function setTenSP($tensp) {
+            $this -> tensp = $tensp;
+        }
 
-    public function setSoLuong($soluong)
-    {
-        $this->soluong = $soluong;
-    }
+        public function setGia($gia) {
+            $this -> gia = $gia;
+        }
 
-    public function setHinhAnh($hinhanh)
-    {
-        $this->hinhanh = $hinhanh;
-    }
+        public function setSoLuong($soluong) {
+            $this -> soluong = $soluong;
+        }
 
-    public function setMaLoai($maloai)
-    {
-        $this->maloai = $maloai;
-    }
+        public function setHinhAnh($hinhanh) {
+            $this -> hinhanh = $hinhanh;
+        }
 
-    public function setMaKT($makt)
-    {
-        $this->makt = $makt;
-    }
+        public function setMaLoai($maloai) {
+            $this -> maloai = $maloai;
+        }
 
-    public function setMaMau($mamau)
-    {
-        $this->mamau = $mamau;
-    }
+        public function setMaKT($makt) {
+            $this -> makt = $makt;
+        }
 
-    public function addMaKT($makt)
-    {
-        $this->makt[] = $makt;
-    }
+        public function setMaMau($mamau) {
+            $this -> mamau = $mamau;
+        }
 
-    public function addMaMau($mamau)
-    {
-        $this->mamau[] = $mamau;
-    }
+        public function addMaKT($makt) {
+            $this -> makt[] = $makt;
+        }
 
-    public function removeMaKT($makt)
-    {
-        $index = array_search($makt, $this->makt);
-        if ($index !== false) {
-            unset($this->makt[$index]);
+        public function addMaMau($mamau) {
+            $this -> mamau[] = $mamau;
+        }
+
+        public function removeMaKT($makt) {
+            $index = array_search($makt, $this -> makt);
+            if ($index !== false) {
+                unset($this -> makt[$index]);
+            }
+        }
+
+        public function removeMaMau($mamau) {
+            $index = array_search($mamau, $this -> mamau);
+            if ($index !== false) {
+                unset($this -> mamau[$index]);
+            }
         }
     }
-
-    public function removeMaMau($mamau)
-    {
-        $index = array_search($mamau, $this->mamau);
-        if ($index !== false) {
-            unset($this->mamau[$index]);
-        }
-    }
-}
