@@ -5,8 +5,6 @@ require_once 'app/models/M_SanPham.php';
 require_once 'app/models/M_KichThuoc.php';
 require_once 'app/models/M_MauSac.php';
 
-$startTime = microtime(true);
-
 $jsonData = file_get_contents('data/products.json');
 $data = json_decode($jsonData, true);
 
@@ -35,10 +33,4 @@ foreach ($data['products'] as $product) {
   $sanPhamModel->themSanPham($sanPham, $colors, $sizes);
 }
 
-$endTime = microtime(true);
-
-$executionTime = $endTime - $startTime;
-
 echo "Đã chèn dữ liệu vào CSDL. ";
-
-echo "Thời gian chạy: " . number_format($executionTime) . " giây";
