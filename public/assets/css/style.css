@@ -1,0 +1,24 @@
+.centered-navigation {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-pills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.table-actions {
+  display: flex;
+  margin: auto;
+  justify-content: flex-end;
+}
+
+.table-action-button {
+  margin-right: 5px;
+}
+
+.input-group {
+  margin: auto;
+}
